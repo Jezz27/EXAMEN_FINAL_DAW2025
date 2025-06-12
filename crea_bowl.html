@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preparación de Bowl Personalizado | Fruletto</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container_header">
+            <div class="menu"> 
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="reporte.html">Registro ventas</a></li>
+                        <li><a href="factura.html">Factura</a></li>
+                        <li><a href="inventario.html">Inventario</a></li>
+                    </ul>
+                </nav>
+                <a href="crea_bowl.html" class="btn_quote">Crear bowl</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <form id="bowlForm">
+            <h1>Personaliza tu Bowl</h1>
+            <div class="price-info">
+                <p><strong>Precio base: $15.000</strong> (incluye 2 toppings + 1 fruta)</p>
+                <p>Adicionales: $3.000 c/u (máximo 3 adicionales)</p>
+            </div>
+            
+            <div class="form-section">
+                <h2>Base de Helado <span class="price-tag">$15.000</span></h2>
+                <div class="options-group">
+                    <div class="option">
+                        <input type="radio" id="vainilla" name="base" value="Proteína sabor a vainilla" required>
+                        <label for="vainilla">Proteína sabor a vainilla</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="acai" name="base" value="Acai">
+                        <label for="acai">Acai</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="chocolate" name="base" value="Chocolate">
+                        <label for="chocolate">Chocolate</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Toppings <span class="included-tag">(2 incluidos)</span></h2>
+                <div class="options-group toppings-group">
+                    <div class="option">
+                        <input type="checkbox" id="chips" name="toppings" value="Chips de chocolate" data-max="2">
+                        <label for="chips">Chips de chocolate</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="mani" name="toppings" value="Maní" data-max="2">
+                        <label for="mani">Maní</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="almendra" name="toppings" value="Almendra" data-max="2">
+                        <label for="almendra">Almendra</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="granola" name="toppings" value="Granola" data-max="2">
+                        <label for="granola">Granola</label>
+                    </div>
+                </div>
+                <p class="selection-counter">Seleccionados: <span id="toppings-counter">0</span>/2</p>
+            </div>
+
+            <div class="form-section">
+                <h2>Frutas <span class="included-tag">(1 incluida)</span></h2>
+                <div class="options-group fruits-group">
+                    <div class="option">
+                        <input type="checkbox" id="fresa" name="frutas" value="Fresa" data-max="1">
+                        <label for="fresa">Fresa</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="banano" name="frutas" value="Banano" data-max="1">
+                        <label for="banano">Banano</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="arandanos" name="frutas" value="Arándanos" data-max="1">
+                        <label for="arandanos">Arándanos</label>
+                    </div>
+                </div>
+                <p class="selection-counter">Seleccionados: <span id="fruits-counter">0</span>/1</p>
+            </div>
+
+            <div class="form-section">
+                <h2>Adicionales <span class="price-tag">$3.000 c/u</span></h2>
+                <p class="note">Puedes seleccionar hasta 3 ingredientes adicionales</p>
+                <div class="options-group extras-group">
+                    <div class="option">
+                        <input type="checkbox" id="adicional-chips" name="adicionales" value="Chips de chocolate" data-max="3">
+                        <label for="adicional-chips">Chips de chocolate</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="adicional-mani" name="adicionales" value="Maní" data-max="3">
+                        <label for="adicional-mani">Maní</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="adicional-almendra" name="adicionales" value="Almendra" data-max="3">
+                        <label for="adicional-almendra">Almendra</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="adicional-granola" name="adicionales" value="Granola" data-max="3">
+                        <label for="adicional-granola">Granola</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="adicional-fresa" name="adicionales" value="Fresa" data-max="3">
+                        <label for="adicional-fresa">Fresa</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="adicional-banano" name="adicionales" value="Banano" data-max="3">
+                        <label for="adicional-banano">Banano</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="adicional-arandanos" name="adicionales" value="Arándanos" data-max="3">
+                        <label for="adicional-arandanos">Arándanos</label>
+                    </div>
+                </div>
+                <p class="selection-counter">Seleccionados: <span id="extras-counter">0</span>/3</p>
+            </div>
+            
+            <div class="total-section">
+                <h3>Total a pagar: <span id="total-price">$15.000</span></h3>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit">Confirmar mi Bowl</button>
+                <a href="index.html" class="btn__volver-inicio">Volver al Inicio</a>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        // Contadores y cálculo de precio
+        document.addEventListener('DOMContentLoaded', function() {
+            const basePrice = 15000;
+            const extraPrice = 3000;
+            let total = basePrice;
+            
+            // Actualizar contadores y precio total
+            function updateCounters() {
+                // Contar toppings seleccionados
+                const toppings = document.querySelectorAll('.toppings-group input[type="checkbox"]:checked');
+                document.getElementById('toppings-counter').textContent = toppings.length;
+                
+                // Contar frutas seleccionadas
+                const fruits = document.querySelectorAll('.fruits-group input[type="checkbox"]:checked');
+                document.getElementById('fruits-counter').textContent = fruits.length;
+                
+                // Contar extras seleccionados
+                const extras = document.querySelectorAll('.extras-group input[type="checkbox"]:checked');
+                document.getElementById('extras-counter').textContent = extras.length;
+                
+                // Calcular total
+                total = basePrice + (extras.length * extraPrice);
+                document.getElementById('total-price').textContent = `$${total.toLocaleString()}`;
+            }
+            
+            // Limitar selecciones según el máximo permitido
+            function setupCheckboxLimits() {
+                document.querySelectorAll('input[type="checkbox"][data-max]').forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        const group = this.closest('.options-group');
+                        const max = parseInt(this.getAttribute('data-max'));
+                        const checked = group.querySelectorAll('input[type="checkbox"]:checked');
+                        
+                        if (checked.length > max) {
+                            this.checked = false;
+                            alert(`Solo puedes seleccionar hasta ${max} ${max === 1 ? 'opción' : 'opciones'} en esta sección`);
+                        }
+                        
+                        updateCounters();
+                    });
+                });
+            }
+            
+            // Inicializar
+            setupCheckboxLimits();
+            updateCounters();
+        });
+    </script>
+</body>
+</html>

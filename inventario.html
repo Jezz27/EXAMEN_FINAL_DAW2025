@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Inventario | Fruletto</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container_header">
+            <div class="menu"> 
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="reporte.html">Registro ventas</a></li>
+                        <li><a href="factura.html">Factura</a></li>
+                        <li><a href="inventario.html">Inventario</a></li>
+                    </ul>
+                </nav>
+                <a href="crea_bowl.html" class="btn_quote">Crear bowl</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="inventory-container">
+            <h1 class="inventory-title">Gestión de Inventario</h1>
+            
+            <div class="inventory-actions">
+                <button id="add-product" class="btn-inventory">
+                    <i class="fas fa-plus"></i> Agregar Producto
+                </button>
+                <div class="inventory-search">
+                    <input type="text" id="search-product" placeholder="Buscar producto...">
+                    <button class="btn-search"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+
+            <div class="inventory-table-container">
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Producto</th>
+                            <th>Categoría</th>
+                            <th>Stock</th>
+                            <th>Última Actualización</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>001</td>
+                            <td>Base Vainilla</td>
+                            <td>Helado</td>
+                            <td class="stock-high">25</td>
+                            <td>2025-06-15</td>
+                            <td><span class="status-active">Disponible</span></td>
+                            <td class="actions">
+                                <button class="btn-edit"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>002</td>
+                            <td>Base Chocolate</td>
+                            <td>Helado</td>
+                            <td class="stock-medium">12</td>
+                            <td>2025-06-15</td>
+                            <td><span class="status-active">Disponible</span></td>
+                            <td class="actions">
+                                <button class="btn-edit"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>003</td>
+                            <td>Base Acai</td>
+                            <td>Helado</td>
+                            <td class="stock-low">3</td>
+                            <td>2025-06-14</td>
+                            <td><span class="status-warning">Últimas unidades</span></td>
+                            <td class="actions">
+                                <button class="btn-edit"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>004</td>
+                            <td>Chips de Chocolate</td>
+                            <td>Topping</td>
+                            <td class="stock-high">42</td>
+                            <td>2025-06-15</td>
+                            <td><span class="status-active">Disponible</span></td>
+                            <td class="actions">
+                                <button class="btn-edit"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>005</td>
+                            <td>Granola</td>
+                            <td>Topping</td>
+                            <td class="stock-medium">15</td>
+                            <td>2025-06-14</td>
+                            <td><span class="status-active">Disponible</span></td>
+                            <td class="actions">
+                                <button class="btn-edit"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>006</td>
+                            <td>Fresas</td>
+                            <td>Fruta</td>
+                            <td class="stock-out">0</td>
+                            <td>2025-06-15</td>
+                            <td><span class="status-inactive">Agotado</span></td>
+                            <td class="actions">
+                                <button class="btn-edit"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Modal para agregar/editar producto -->
+            <div id="product-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <h2 id="modal-title">Agregar Nuevo Producto</h2>
+                    <form id="product-form">
+                        <div class="form-group">
+                            <label for="product-name">Nombre del Producto:</label>
+                            <input type="text" id="product-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-category">Categoría:</label>
+                            <select id="product-category" required>
+                                <option value="">Seleccione una categoría</option>
+                                <option value="Helado">Base de Helado</option>
+                                <option value="Topping">Topping</option>
+                                <option value="Fruta">Fruta</option>
+                                <option value="Adicional">Adicional</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-stock">Stock Inicial:</label>
+                            <input type="number" id="product-stock" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-min">Stock Mínimo:</label>
+                            <input type="number" id="product-min" min="0" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Guardar Producto</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Funcionalidad básica del modal
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('product-modal');
+            const btnAdd = document.getElementById('add-product');
+            const spanClose = document.getElementsByClassName('close-modal')[0];
+            
+            btnAdd.onclick = function() {
+                modal.style.display = 'block';
+                document.getElementById('modal-title').textContent = 'Agregar Nuevo Producto';
+            }
+            
+            spanClose.onclick = function() {
+                modal.style.display = 'none';
+            }
+            
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
+            
+            // Simulación de búsqueda
+            document.querySelector('.btn-search').addEventListener('click', function() {
+                const searchTerm = document.getElementById('search-product').value.toLowerCase();
+                const rows = document.querySelectorAll('.inventory-table tbody tr');
+                
+                rows.forEach(row => {
+                    const productName = row.cells[1].textContent.toLowerCase();
+                    if (productName.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

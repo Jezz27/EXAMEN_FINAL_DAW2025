@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes de Ventas | Fruletto</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container_header">
+            <div class="menu"> 
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="reporte.html">Registro ventas</a></li>
+                        <li><a href="factura.html">Factura</a></li>
+                        <li><a href="inventario.html">Inventario</a></li>
+                    </ul>
+                </nav>
+                <a href="crea_bowl.html" class="btn_quote">Crear bowl</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="reporte-container">
+        <h1 class="reporte-title">Reportes de Ventas</h1>
+        
+        <div class="filtros-reporte">
+            <div class="filtro-group">
+                <label for="rango-fechas">Rango de fechas:</label>
+                <div class="date-inputs">
+                    <input type="date" id="fecha-inicio">
+                    <span>a</span>
+                    <input type="date" id="fecha-fin">
+                </div>
+            </div>
+            <button class="btn-filtrar">Generar Reporte</button>
+        </div>
+
+        <div class="reporte-grid">
+            <!-- Tarjeta 1: Ventas totales -->
+            <div class="reporte-card ventas-totales">
+                <h2>Ventas Totales</h2>
+                <div class="ventas-data">
+                    <span class="ventas-monto">$2,450,000</span>
+                    <span class="ventas-tendencia positivo"><i class="fas fa-arrow-up"></i> 12%</span>
+                </div>
+                <p>Comparado con el período anterior</p>
+            </div>
+
+            <!-- Tarjeta 2: Sabores más vendidos -->
+            <div class="reporte-card sabores-vendidos">
+                <h2>Sabores Más Vendidos</h2>
+                <div class="chart-container">
+                    <canvas id="saboresChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Tarjeta 3: Toppings populares -->
+            <div class="reporte-card toppings-populares">
+                <h2>Toppings Más Populares</h2>
+                <div class="toppings-list">
+                    <div class="topping-item">
+                        <span class="topping-name">Granola</span>
+                        <div class="topping-bar-container">
+                            <div class="topping-bar" style="width: 85%"></div>
+                        </div>
+                        <span class="topping-percent">85%</span>
+                    </div>
+                    <div class="topping-item">
+                        <span class="topping-name">Fresa</span>
+                        <div class="topping-bar-container">
+                            <div class="topping-bar" style="width: 72%"></div>
+                        </div>
+                        <span class="topping-percent">72%</span>
+                    </div>
+                    <div class="topping-item">
+                        <span class="topping-name">Chips chocolate</span>
+                        <div class="topping-bar-container">
+                            <div class="topping-bar" style="width: 68%"></div>
+                        </div>
+                        <span class="topping-percent">68%</span>
+                    </div>
+                    <div class="topping-item">
+                        <span class="topping-name">Arándanos</span>
+                        <div class="topping-bar-container">
+                            <div class="topping-bar" style="width: 55%"></div>
+                        </div>
+                        <span class="topping-percent">55%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 4: Ventas por día -->
+            <div class="reporte-card ventas-dia">
+                <h2>Ventas por Día de la Semana</h2>
+                <div class="chart-container">
+                    <canvas id="ventasDiaChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de ventas recientes -->
+        <div class="tabla-ventas">
+            <h2>Ventas Recientes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>15/06/2023</td>
+                        <td>María González</td>
+                        <td>Bowl Vainilla + 3 toppings</td>
+                        <td>1</td>
+                        <td>$18,000</td>
+                    </tr>
+                    <tr>
+                        <td>15/06/2023</td>
+                        <td>Carlos Pérez</td>
+                        <td>Bowl Acai + 2 toppings</td>
+                        <td>2</td>
+                        <td>$32,000</td>
+                    </tr>
+                    <tr>
+                        <td>14/06/2023</td>
+                        <td>Ana Rodríguez</td>
+                        <td>Bowl Chocolate + 4 toppings</td>
+                        <td>1</td>
+                        <td>$21,000</td>
+                    </tr>
+                    <tr>
+                        <td>14/06/2023</td>
+                        <td>Pedro Sánchez</td>
+                        <td>Bowl Vainilla + 1 topping</td>
+                        <td>3</td>
+                        <td>$45,000</td>
+                    </tr>
+                    <tr>
+                        <td>13/06/2023</td>
+                        <td>Laura Martínez</td>
+                        <td>Bowl Acai + 3 toppings</td>
+                        <td>1</td>
+                        <td>$19,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        // Gráfico de sabores más vendidos
+        const saboresCtx = document.getElementById('saboresChart').getContext('2d');
+        const saboresChart = new Chart(saboresCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Vainilla', 'Acai', 'Chocolate'],
+                datasets: [{
+                    data: [120, 85, 65],
+                    backgroundColor: [
+                        '#6FADD4',
+                        '#8BC34A',
+                        '#FF9800'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Gráfico de ventas por día
+        const ventasDiaCtx = document.getElementById('ventasDiaChart').getContext('2d');
+        const ventasDiaChart = new Chart(ventasDiaCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+                datasets: [{
+                    label: 'Ventas por día',
+                    data: [12, 19, 15, 22, 35, 28, 18],
+                    backgroundColor: '#6FADD4',
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
