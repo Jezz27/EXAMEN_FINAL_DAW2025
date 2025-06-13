@@ -1,211 +1,390 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reportes de Ventas | Fruletto</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reportes de Ventas | Fruletto</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    :root {
+      --header-bg: rgba(25, 35, 60, 0.95);
+      --text-light: rgba(255, 255, 255, 0.95);
+      --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      --footer-bg: #0f172a;
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      padding-top: 60px;
+      color: #333;
+    }
+
+    /* Header consistente */
+    .navbar {
+      background: var(--header-bg) !important;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 0.5rem 0;
+      min-height: 60px;
+    }
+
+    .navbar-brand img {
+      height: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-brand:hover img {
+      transform: scale(1.05);
+    }
+
+    /* Hero section mejorado */
+    .report-hero {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 5rem 0 3rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Cards de métricas */
+    .metric-card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease;
+      height: 100%;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    /* Gráficos */
+    .chart-container {
+      position: relative;
+      height: 250px;
+      width: 100%;
+    }
+
+    /* Tabla de ventas */
+    .sales-table {
+      box-shadow: var(--card-shadow);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .sales-table thead {
+      background: var(--primary-gradient);
+      color: white;
+    }
+
+    /* Barras de toppings */
+    .topping-progress {
+      height: 8px;
+      border-radius: 4px;
+      background-color: #e9ecef;
+    }
+
+    .topping-progress-bar {
+      background: var(--primary-gradient);
+    }
+
+    /* Footer */
+    .main-footer {
+      background: var(--footer-bg);
+      color: white;
+      padding: 3rem 0;
+      margin-top: 4rem;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="container_header">
-            <div class="menu"> 
-                <nav>
-                    <ul>
-                        <li><a href="index.html">Inicio</a></li>
-                        <li><a href="reporte.html">Registro ventas</a></li>
-                        <li><a href="factura.html">Factura</a></li>
-                        <li><a href="inventario.html">Inventario</a></li>
-                    </ul>
-                </nav>
-                <a href="crea_bowl.html" class="btn_quote">Crear bowl</a>
-            </div>
+  <!-- Header consistente -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="img/Logo.png" alt="Fruletto">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link active" href="reporte.html">Registro ventas</a></li>
+          <li class="nav-item"><a class="nav-link" href="factura.html">Factura</a></li>
+          <li class="nav-item"><a class="nav-link" href="inventario.html">Inventario</a></li>
+        </ul>
+        <a href="crea_bowl.html" class="btn btn-outline-light btn-sm ms-3">
+          <i class="fas fa-plus-circle me-1"></i>Crear bowl
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="report-hero">
+    <div class="container text-center">
+      <h1 class="display-5 fw-bold mb-3">Reportes de Ventas</h1>
+      <p class="lead mb-0">Analiza el desempeño de tu negocio con datos en tiempo real</p>
+    </div>
+  </section>
+
+  <!-- Contenido principal -->
+  <main class="container mb-5">
+    <!-- Filtros -->
+    <div class="card mb-4 border-0 shadow-sm">
+      <div class="card-body">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-4">
+            <label for="fecha-inicio" class="form-label">Fecha inicial</label>
+            <input type="date" class="form-control" id="fecha-inicio">
+          </div>
+          <div class="col-md-4">
+            <label for="fecha-fin" class="form-label">Fecha final</label>
+            <input type="date" class="form-control" id="fecha-fin">
+          </div>
+          <div class="col-md-4 d-flex align-items-end">
+            <button class="btn btn-primary w-100">
+              <i class="fas fa-filter me-2"></i>Filtrar
+            </button>
+          </div>
         </div>
-    </header>
+      </div>
+    </div>
 
-    <main class="reporte-container">
-        <h1 class="reporte-title">Reportes de Ventas</h1>
-        
-        <div class="filtros-reporte">
-            <div class="filtro-group">
-                <label for="rango-fechas">Rango de fechas:</label>
-                <div class="date-inputs">
-                    <input type="date" id="fecha-inicio">
-                    <span>a</span>
-                    <input type="date" id="fecha-fin">
-                </div>
+    <!-- Métricas -->
+    <div class="row g-4 mb-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="card metric-card">
+          <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Ventas totales</h6>
+            <div class="metric-value text-primary">$2,450,000</div>
+            <div class="text-success small mt-1">
+              <i class="fas fa-arrow-up me-1"></i>12% vs período anterior
             </div>
-            <button class="btn-filtrar">Generar Reporte</button>
+          </div>
         </div>
-
-        <div class="reporte-grid">
-            <!-- Tarjeta 1: Ventas totales -->
-            <div class="reporte-card ventas-totales">
-                <h2>Ventas Totales</h2>
-                <div class="ventas-data">
-                    <span class="ventas-monto">$2,450,000</span>
-                    <span class="ventas-tendencia positivo"><i class="fas fa-arrow-up"></i> 12%</span>
-                </div>
-                <p>Comparado con el período anterior</p>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="card metric-card">
+          <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Pedidos</h6>
+            <div class="metric-value text-primary">187</div>
+            <div class="text-success small mt-1">
+              <i class="fas fa-arrow-up me-1"></i>8% vs período anterior
             </div>
-
-            <!-- Tarjeta 2: Sabores más vendidos -->
-            <div class="reporte-card sabores-vendidos">
-                <h2>Sabores Más Vendidos</h2>
-                <div class="chart-container">
-                    <canvas id="saboresChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Tarjeta 3: Toppings populares -->
-            <div class="reporte-card toppings-populares">
-                <h2>Toppings Más Populares</h2>
-                <div class="toppings-list">
-                    <div class="topping-item">
-                        <span class="topping-name">Granola</span>
-                        <div class="topping-bar-container">
-                            <div class="topping-bar" style="width: 85%"></div>
-                        </div>
-                        <span class="topping-percent">85%</span>
-                    </div>
-                    <div class="topping-item">
-                        <span class="topping-name">Fresa</span>
-                        <div class="topping-bar-container">
-                            <div class="topping-bar" style="width: 72%"></div>
-                        </div>
-                        <span class="topping-percent">72%</span>
-                    </div>
-                    <div class="topping-item">
-                        <span class="topping-name">Chips chocolate</span>
-                        <div class="topping-bar-container">
-                            <div class="topping-bar" style="width: 68%"></div>
-                        </div>
-                        <span class="topping-percent">68%</span>
-                    </div>
-                    <div class="topping-item">
-                        <span class="topping-name">Arándanos</span>
-                        <div class="topping-bar-container">
-                            <div class="topping-bar" style="width: 55%"></div>
-                        </div>
-                        <span class="topping-percent">55%</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tarjeta 4: Ventas por día -->
-            <div class="reporte-card ventas-dia">
-                <h2>Ventas por Día de la Semana</h2>
-                <div class="chart-container">
-                    <canvas id="ventasDiaChart"></canvas>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="card metric-card">
+          <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Ticket promedio</h6>
+            <div class="metric-value text-primary">$13,101</div>
+            <div class="text-success small mt-1">
+              <i class="fas fa-arrow-up me-1"></i>3% vs período anterior
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="card metric-card">
+          <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Clientes nuevos</h6>
+            <div class="metric-value text-primary">42</div>
+            <div class="text-danger small mt-1">
+              <i class="fas fa-arrow-down me-1"></i>5% vs período anterior
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <!-- Tabla de ventas recientes -->
-        <div class="tabla-ventas">
-            <h2>Ventas Recientes</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Cliente</th>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Total</th>
-                    </tr>
+    <!-- Gráficos -->
+    <div class="row g-4 mb-4">
+      <div class="col-lg-6">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Ventas por día</h5>
+            <div class="chart-container">
+              <canvas id="ventasChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Sabores más vendidos</h5>
+            <div class="chart-container">
+              <canvas id="saboresChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toppings y tabla -->
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Toppings más populares</h5>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>Granola</span>
+                <span>85%</span>
+              </div>
+              <div class="topping-progress">
+                <div class="topping-progress-bar" style="width: 85%"></div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>Fresas</span>
+                <span>72%</span>
+              </div>
+              <div class="topping-progress">
+                <div class="topping-progress-bar" style="width: 72%"></div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>Chips de chocolate</span>
+                <span>68%</span>
+              </div>
+              <div class="topping-progress">
+                <div class="topping-progress-bar" style="width: 68%"></div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <span>Arándanos</span>
+                <span>55%</span>
+              </div>
+              <div class="topping-progress">
+                <div class="topping-progress-bar" style="width: 55%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Ventas recientes</h5>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="table-light">
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Producto</th>
+                    <th class="text-end">Total</th>
+                  </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>15/06/2023</td>
-                        <td>María González</td>
-                        <td>Bowl Vainilla + 3 toppings</td>
-                        <td>1</td>
-                        <td>$18,000</td>
-                    </tr>
-                    <tr>
-                        <td>15/06/2023</td>
-                        <td>Carlos Pérez</td>
-                        <td>Bowl Acai + 2 toppings</td>
-                        <td>2</td>
-                        <td>$32,000</td>
-                    </tr>
-                    <tr>
-                        <td>14/06/2023</td>
-                        <td>Ana Rodríguez</td>
-                        <td>Bowl Chocolate + 4 toppings</td>
-                        <td>1</td>
-                        <td>$21,000</td>
-                    </tr>
-                    <tr>
-                        <td>14/06/2023</td>
-                        <td>Pedro Sánchez</td>
-                        <td>Bowl Vainilla + 1 topping</td>
-                        <td>3</td>
-                        <td>$45,000</td>
-                    </tr>
-                    <tr>
-                        <td>13/06/2023</td>
-                        <td>Laura Martínez</td>
-                        <td>Bowl Acai + 3 toppings</td>
-                        <td>1</td>
-                        <td>$19,000</td>
-                    </tr>
+                  <tr>
+                    <td>15/06/2023</td>
+                    <td>María González</td>
+                    <td>Bowl Vainilla + 3 toppings</td>
+                    <td class="text-end">$18,000</td>
+                  </tr>
+                  <tr>
+                    <td>15/06/2023</td>
+                    <td>Carlos Pérez</td>
+                    <td>Bowl Acai + 2 toppings</td>
+                    <td class="text-end">$32,000</td>
+                  </tr>
+                  <tr>
+                    <td>14/06/2023</td>
+                    <td>Ana Rodríguez</td>
+                    <td>Bowl Chocolate + 4 toppings</td>
+                    <td class="text-end">$21,000</td>
+                  </tr>
+                  <tr>
+                    <td>14/06/2023</td>
+                    <td>Pedro Sánchez</td>
+                    <td>Bowl Vainilla + 1 topping</td>
+                    <td class="text-end">$45,000</td>
+                  </tr>
                 </tbody>
-            </table>
+              </table>
+            </div>
+          </div>
         </div>
-    </main>
+      </div>
+    </div>
+  </main>
 
-    <script>
-        // Gráfico de sabores más vendidos
-        const saboresCtx = document.getElementById('saboresChart').getContext('2d');
-        const saboresChart = new Chart(saboresCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Vainilla', 'Acai', 'Chocolate'],
-                datasets: [{
-                    data: [120, 85, 65],
-                    backgroundColor: [
-                        '#6FADD4',
-                        '#8BC34A',
-                        '#FF9800'
-                    ],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }
-        });
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container text-center">
+      <p class="mb-2">© 2023 Fruletto. Todos los derechos reservados.</p>
+     
+    </div>
+  </footer>
 
-        // Gráfico de ventas por día
-        const ventasDiaCtx = document.getElementById('ventasDiaChart').getContext('2d');
-        const ventasDiaChart = new Chart(ventasDiaCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
-                datasets: [{
-                    label: 'Ventas por día',
-                    data: [12, 19, 15, 22, 35, 28, 18],
-                    backgroundColor: '#6FADD4',
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    </script>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Gráfico de ventas
+    new Chart(document.getElementById('ventasChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+        datasets: [{
+          label: 'Ventas',
+          data: [12, 19, 15, 22, 35, 28, 18],
+          backgroundColor: '#6a11cb',
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+
+    // Gráfico de sabores
+    new Chart(document.getElementById('saboresChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Vainilla', 'Acai', 'Chocolate'],
+        datasets: [{
+          data: [120, 85, 65],
+          backgroundColor: ['#6a11cb', '#2575fc', '#8e44ad'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' }
+        },
+        cutout: '70%'
+      }
+    });
+  </script>
 </body>
 </html>

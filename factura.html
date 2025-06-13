@@ -1,69 +1,325 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generar Factura | Fruletto</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generar Factura | Fruletto</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --header-bg: rgba(25, 35, 60, 0.95);
+      --primary-color: #6a11cb;
+      --secondary-color: #2575fc;
+      --footer-bg: #0f172a;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      padding-top: 60px;
+      color: #333;
+    }
+
+    /* Header consistente */
+    .navbar {
+      background: var(--header-bg) !important;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 0.5rem 0;
+      min-height: 60px;
+    }
+
+    .navbar-brand img {
+      height: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-brand:hover img {
+      transform: scale(1.05);
+    }
+
+    /* Contenedor principal */
+    .invoice-container {
+      max-width: 800px;
+      margin: 2rem auto;
+    }
+
+    /* Card de formulario */
+    .invoice-card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    /* Formulario */
+    .form-label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      border: 1px solid #e0e0e0;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.25rem rgba(106, 17, 203, 0.15);
+    }
+
+    /* Botones */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border: none;
+      border-radius: 10px;
+      padding: 0.75rem 2rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
+    }
+
+    .btn-outline {
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+      border-radius: 10px;
+      padding: 0.75rem 2rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+      background-color: rgba(106, 17, 203, 0.05);
+    }
+
+    /* Footer */
+    .main-footer {
+      background: var(--footer-bg);
+      color: white;
+      padding: 3rem 0;
+      margin-top: 4rem;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="container_header">
-            <div class="menu"> 
-                <nav>
-                    <ul>
-                        <li><a href="index.html">Inicio</a></li>
-                        <li><a href="reporte.html">Registro ventas</a></li>
-                        <li><a href="factura.html">Factura</a></li>
-                        <li><a href="inventario.html">Inventario</a></li>
-                    </ul>
-                </nav>
-                <a href="crea_bowl.html" class="btn_quote">Crear bowl</a>
+  <!-- Header consistente -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="img/Logo.png" alt="Fruletto">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="reporte.html">Registro ventas</a></li>
+          <li class="nav-item"><a class="nav-link active" href="factura.html">Factura</a></li>
+          <li class="nav-item"><a class="nav-link" href="inventario.html">Inventario</a></li>
+        </ul>
+        <a href="crea_bowl.html" class="btn btn-outline-light btn-sm ms-3">
+          <i class="fas fa-plus-circle me-1"></i>Crear bowl
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido principal -->
+  <main class="container invoice-container">
+    <div class="card invoice-card">
+      <div class="card-header">
+        <h2 class="mb-0"><i class="fas fa-file-invoice me-2"></i>Generar Factura</h2>
+      </div>
+      <div class="card-body p-4 p-md-5">
+        <form id="facturaForm">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="cliente" class="form-label">Nombre del Cliente</label>
+              <input type="text" class="form-control" id="cliente" required>
             </div>
-        </div>
-    </header>
+            <div class="col-md-6">
+              <label for="cedula" class="form-label">Cédula/NIT</label>
+              <input type="text" class="form-control" id="cedula" required>
+            </div>
+            <div class="col-md-6">
+              <label for="fecha" class="form-label">Fecha</label>
+              <input type="date" class="form-control" id="fecha" required>
+            </div>
+            <div class="col-md-6">
+              <label for="telefono" class="form-label">Teléfono</label>
+              <input type="tel" class="form-control" id="telefono">
+            </div>
+          </div>
 
-    <main>
-        <div class="container_foree">
-            <h1>Generar Factura</h1>
-            <form id="facturaForm">
-                <div class="form-group">
-                    <label for="cliente">Nombre del Cliente:</label>
-                    <input type="text" id="cliente" name="cliente" required>
-                </div>
+          <hr class="my-4">
 
-                <div class="form-group">
-                    <label for="cedula">Cédula/NIT:</label>
-                    <input type="text" id="cedula" name="cedula" required>
-                </div>
+          <!-- Productos -->
+          <h5 class="mb-3"><i class="fas fa-shopping-basket me-2"></i>Productos</h5>
+          <div class="table-responsive mb-3">
+            <table class="table" id="productosTable">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th width="120">Cantidad</th>
+                  <th width="150">Precio Unitario</th>
+                  <th width="150">Total</th>
+                  <th width="50"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <select class="form-select" required>
+                      <option value="" selected disabled>Seleccione...</option>
+                      <option value="bowl_vainilla">Bowl Vainilla</option>
+                      <option value="bowl_acai">Bowl Acai</option>
+                      <option value="bowl_chocolate">Bowl Chocolate</option>
+                    </select>
+                  </td>
+                  <td><input type="number" class="form-control cantidad" min="1" value="1" required></td>
+                  <td><input type="number" class="form-control precio" step="0.01" required></td>
+                  <td><input type="text" class="form-control total" readonly></td>
+                  <td><button type="button" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
+            <button type="button" class="btn btn-sm btn-outline-primary" id="agregarProducto">
+              <i class="fas fa-plus me-1"></i>Agregar Producto
+            </button>
+          </div>
 
-                <div class="form-group">
-                    <label for="producto">Producto o Servicio:</label>
-                    <input type="text" id="producto" name="producto" required>
-                </div>
+          <div class="row">
+            <div class="col-md-6 offset-md-6">
+              <div class="table-responsive">
+                <table class="table">
+                  <tr>
+                    <th>Subtotal:</th>
+                    <td class="text-end" id="subtotal">$0.00</td>
+                  </tr>
+                  <tr>
+                    <th>IVA (19%):</th>
+                    <td class="text-end" id="iva">$0.00</td>
+                  </tr>
+                  <tr class="table-active">
+                    <th>Total a pagar:</th>
+                    <td class="text-end fw-bold" id="totalPagar">$0.00</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
 
-                <div class="form-group">
-                    <label for="cantidad">Cantidad:</label>
-                    <input type="number" id="cantidad" name="cantidad" min="1" required>
-                </div>
+          <div class="d-flex justify-content-between mt-4">
+            <a href="index.html" class="btn btn-outline">
+              <i class="fas fa-arrow-left me-1"></i>Volver
+            </a>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save me-1"></i>Guardar Factura
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
 
-                <div class="form-group">
-                    <label for="precio">Precio Unitario ($):</label>
-                    <input type="number" id="precio" name="precio" step="0.01" required>
-                </div>
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container text-center">
+      
+      <p class="mb-2">© 2023 Fruletto. Todos los derechos reservados.</p>
+     
+    </div>
+  </footer>
 
-                <div class="form-group">
-                    <label for="fecha">Fecha:</label>
-                    <input type="date" id="fecha" name="fecha" required>
-                </div>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Funcionalidad para agregar productos
+    document.getElementById('agregarProducto').addEventListener('click', function() {
+      const tbody = document.querySelector('#productosTable tbody');
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td>
+          <select class="form-select" required>
+            <option value="" selected disabled>Seleccione...</option>
+            <option value="bowl_vainilla">Bowl Vainilla</option>
+            <option value="bowl_acai">Bowl Acai</option>
+            <option value="bowl_chocolate">Bowl Chocolate</option>
+          </select>
+        </td>
+        <td><input type="number" class="form-control cantidad" min="1" value="1" required></td>
+        <td><input type="number" class="form-control precio" step="0.01" required></td>
+        <td><input type="text" class="form-control total" readonly></td>
+        <td><button type="button" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button></td>
+      `;
+      tbody.appendChild(newRow);
 
-                <div class="form-actions">
-                    <button type="submit">Guardar Factura</button>
-                    <a href="index.html" class="btn__volver-inicio">Volver al Inicio</a>
-                </div>
-            </form>
-        </div>
-    </main>
+      // Agregar evento de eliminación
+      newRow.querySelector('.btn-danger').addEventListener('click', function() {
+        this.closest('tr').remove();
+        calcularTotales();
+      });
+
+      // Agregar eventos para calcular
+      newRow.querySelector('.cantidad').addEventListener('input', calcularTotales);
+      newRow.querySelector('.precio').addEventListener('input', calcularTotales);
+    });
+
+    // Calcular totales
+    function calcularTotales() {
+      let subtotal = 0;
+      document.querySelectorAll('#productosTable tbody tr').forEach(row => {
+        const cantidad = parseFloat(row.querySelector('.cantidad').value) || 0;
+        const precio = parseFloat(row.querySelector('.precio').value) || 0;
+        const total = cantidad * precio;
+        row.querySelector('.total').value = total.toFixed(2);
+        subtotal += total;
+      });
+
+      const iva = subtotal * 0.19;
+      const total = subtotal + iva;
+
+      document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+      document.getElementById('iva').textContent = `$${iva.toFixed(2)}`;
+      document.getElementById('totalPagar').textContent = `$${total.toFixed(2)}`;
+    }
+
+    // Inicializar eventos
+    document.querySelectorAll('.cantidad, .precio').forEach(input => {
+      input.addEventListener('input', calcularTotales);
+    });
+
+    document.querySelector('.btn-danger').addEventListener('click', function() {
+      this.closest('tr').remove();
+      calcularTotales();
+    });
+
+    // Form submit
+    document.getElementById('facturaForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Aquí iría la lógica para guardar la factura
+      alert('Factura generada correctamente');
+      this.reset();
+      calcularTotales();
+    });
+  </script>
 </body>
 </html>

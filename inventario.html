@@ -4,42 +4,438 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Inventario | Fruletto</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --header-bg: rgba(25, 35, 60, 0.95);
+            --text-light: rgba(255, 255, 255, 0.95);
+            --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            --footer-bg: #0f172a;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            padding-top: 60px;
+            color: #333;
+        }
+
+        /* Header consistente */
+        .navbar {
+            background: var(--header-bg) !important;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 0.5rem 0;
+            min-height: 60px;
+        }
+
+        .navbar-brand img {
+            height: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Hero section */
+        .inventory-hero {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Cards y elementos */
+        .inventory-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .inventory-card:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Botones */
+        .btn-inventory {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-inventory:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(106, 17, 203, 0.3);
+        }
+
+        .btn-search {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0 8px 8px 0;
+            transition: all 0.3s ease;
+        }
+
+        .btn-search:hover {
+            opacity: 0.9;
+        }
+
+        /* Tabla de inventario */
+        .inventory-table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+
+        .inventory-table {
+            margin-bottom: 0;
+        }
+
+        .inventory-table thead {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .inventory-table th {
+            border: none;
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        .inventory-table td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #eee;
+        }
+
+        .inventory-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Estados de stock */
+        .stock-high {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .stock-medium {
+            color: var(--warning-color);
+            font-weight: 600;
+        }
+
+        .stock-low {
+            color: var(--danger-color);
+            font-weight: 600;
+        }
+
+        .stock-out {
+            color: var(--danger-color);
+            font-weight: 600;
+        }
+
+        /* Badges de estado */
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-warning {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+
+        .status-inactive {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+
+        /* Botones de acción */
+        .btn-edit {
+            background: transparent;
+            border: 1px solid #28a745;
+            color: #28a745;
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-right: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit:hover {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-delete {
+            background: transparent;
+            border: 1px solid #dc3545;
+            color: #dc3545;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background: #dc3545;
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1050;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--card-shadow);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #6a11cb;
+        }
+
+        .btn-submit {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(106, 17, 203, 0.3);
+        }
+
+        /* Input de búsqueda */
+        .search-input-group {
+            position: relative;
+            display: flex;
+        }
+
+        .search-input-group input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+            font-size: 1rem;
+        }
+
+        .search-input-group input:focus {
+            outline: none;
+            border-color: #6a11cb;
+        }
+
+        /* Footer */
+        .main-footer {
+            background: var(--footer-bg);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        /* Métricas rápidas */
+        .metric-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="container_header">
-            <div class="menu"> 
-                <nav>
-                    <ul>
-                        <li><a href="index.html">Inicio</a></li>
-                        <li><a href="reporte.html">Registro ventas</a></li>
-                        <li><a href="factura.html">Factura</a></li>
-                        <li><a href="inventario.html">Inventario</a></li>
-                    </ul>
-                </nav>
-                <a href="crea_bowl.html" class="btn_quote">Crear bowl</a>
+    <!-- Header consistente -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="img/Logo.png" alt="Fruletto">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="reporte.html">Registro ventas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="factura.html">Factura</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="inventario.html">Inventario</a></li>
+                </ul>
+                <a href="crea_bowl.html" class="btn btn-outline-light btn-sm ms-3">
+                    <i class="fas fa-plus-circle me-1"></i>Crear bowl
+                </a>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <main>
-        <div class="inventory-container">
-            <h1 class="inventory-title">Gestión de Inventario</h1>
-            
-            <div class="inventory-actions">
-                <button id="add-product" class="btn-inventory">
-                    <i class="fas fa-plus"></i> Agregar Producto
-                </button>
-                <div class="inventory-search">
-                    <input type="text" id="search-product" placeholder="Buscar producto...">
-                    <button class="btn-search"><i class="fas fa-search"></i></button>
+    <!-- Hero Section -->
+    <section class="inventory-hero">
+        <div class="container text-center">
+            <h1 class="display-5 fw-bold mb-3">Gestión de Inventario</h1>
+            <p class="lead mb-0">Controla y administra todos tus productos en tiempo real</p>
+        </div>
+    </section>
+
+    <!-- Contenido principal -->
+    <main class="container mb-5">
+        <!-- Métricas rápidas -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body text-center">
+                        <h6 class="card-subtitle mb-2 text-muted">Total Productos</h6>
+                        <div class="metric-value text-primary">127</div>
+                    </div>
                 </div>
             </div>
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body text-center">
+                        <h6 class="card-subtitle mb-2 text-muted">En Stock</h6>
+                        <div class="metric-value text-success">98</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body text-center">
+                        <h6 class="card-subtitle mb-2 text-muted">Stock Bajo</h6>
+                        <div class="metric-value text-warning">15</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body text-center">
+                        <h6 class="card-subtitle mb-2 text-muted">Agotados</h6>
+                        <div class="metric-value text-danger">14</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            <div class="inventory-table-container">
-                <table class="inventory-table">
+        <!-- Acciones del inventario -->
+        <div class="card inventory-card mb-4">
+            <div class="card-body">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-4">
+                        <button id="add-product" class="btn-inventory w-100">
+                            <i class="fas fa-plus me-2"></i>Agregar Producto
+                        </button>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="search-input-group">
+                            <input type="text" id="search-product" placeholder="Buscar producto por nombre o categoría...">
+                            <button class="btn-search">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de inventario -->
+        <div class="inventory-table-container">
+            <div class="table-responsive">
+                <table class="table inventory-table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -53,118 +449,129 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>001</td>
+                            <td><strong>001</strong></td>
                             <td>Base Vainilla</td>
-                            <td>Helado</td>
+                            <td><span class="badge bg-light text-dark">Helado</span></td>
                             <td class="stock-high">25</td>
                             <td>2025-06-15</td>
-                            <td><span class="status-active">Disponible</span></td>
+                            <td><span class="status-badge status-active">Disponible</span></td>
                             <td class="actions">
-                                <button class="btn-edit"><i class="fas fa-edit"></i></button>
-                                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                                <button class="btn-edit" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
-                            <td>002</td>
+                            <td><strong>002</strong></td>
                             <td>Base Chocolate</td>
-                            <td>Helado</td>
+                            <td><span class="badge bg-light text-dark">Helado</span></td>
                             <td class="stock-medium">12</td>
                             <td>2025-06-15</td>
-                            <td><span class="status-active">Disponible</span></td>
+                            <td><span class="status-badge status-active">Disponible</span></td>
                             <td class="actions">
-                                <button class="btn-edit"><i class="fas fa-edit"></i></button>
-                                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                                <button class="btn-edit" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
-                            <td>003</td>
+                            <td><strong>003</strong></td>
                             <td>Base Acai</td>
-                            <td>Helado</td>
+                            <td><span class="badge bg-light text-dark">Helado</span></td>
                             <td class="stock-low">3</td>
                             <td>2025-06-14</td>
-                            <td><span class="status-warning">Últimas unidades</span></td>
+                            <td><span class="status-badge status-warning">Últimas unidades</span></td>
                             <td class="actions">
-                                <button class="btn-edit"><i class="fas fa-edit"></i></button>
-                                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                                <button class="btn-edit" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
-                            <td>004</td>
+                            <td><strong>004</strong></td>
                             <td>Chips de Chocolate</td>
-                            <td>Topping</td>
+                            <td><span class="badge bg-secondary">Topping</span></td>
                             <td class="stock-high">42</td>
                             <td>2025-06-15</td>
-                            <td><span class="status-active">Disponible</span></td>
+                            <td><span class="status-badge status-active">Disponible</span></td>
                             <td class="actions">
-                                <button class="btn-edit"><i class="fas fa-edit"></i></button>
-                                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                                <button class="btn-edit" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
-                            <td>005</td>
+                            <td><strong>005</strong></td>
                             <td>Granola</td>
-                            <td>Topping</td>
+                            <td><span class="badge bg-secondary">Topping</span></td>
                             <td class="stock-medium">15</td>
                             <td>2025-06-14</td>
-                            <td><span class="status-active">Disponible</span></td>
+                            <td><span class="status-badge status-active">Disponible</span></td>
                             <td class="actions">
-                                <button class="btn-edit"><i class="fas fa-edit"></i></button>
-                                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                                <button class="btn-edit" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
-                            <td>006</td>
+                            <td><strong>006</strong></td>
                             <td>Fresas</td>
-                            <td>Fruta</td>
+                            <td><span class="badge bg-success">Fruta</span></td>
                             <td class="stock-out">0</td>
                             <td>2025-06-15</td>
-                            <td><span class="status-inactive">Agotado</span></td>
+                            <td><span class="status-badge status-inactive">Agotado</span></td>
                             <td class="actions">
-                                <button class="btn-edit"><i class="fas fa-edit"></i></button>
-                                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                                <button class="btn-edit" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+        </div>
 
-            <!-- Modal para agregar/editar producto -->
-            <div id="product-modal" class="modal">
-                <div class="modal-content">
-                    <span class="close-modal">&times;</span>
-                    <h2 id="modal-title">Agregar Nuevo Producto</h2>
-                    <form id="product-form">
-                        <div class="form-group">
-                            <label for="product-name">Nombre del Producto:</label>
-                            <input type="text" id="product-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-category">Categoría:</label>
-                            <select id="product-category" required>
-                                <option value="">Seleccione una categoría</option>
-                                <option value="Helado">Base de Helado</option>
-                                <option value="Topping">Topping</option>
-                                <option value="Fruta">Fruta</option>
-                                <option value="Adicional">Adicional</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-stock">Stock Inicial:</label>
-                            <input type="number" id="product-stock" min="0" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-min">Stock Mínimo:</label>
-                            <input type="number" id="product-min" min="0" required>
-                        </div>
-                        <button type="submit" class="btn-submit">Guardar Producto</button>
-                    </form>
-                </div>
+        <!-- Modal para agregar/editar producto -->
+        <div id="product-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2 id="modal-title" class="mb-4">Agregar Nuevo Producto</h2>
+                <form id="product-form">
+                    <div class="form-group">
+                        <label for="product-name">Nombre del Producto:</label>
+                        <input type="text" id="product-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-category">Categoría:</label>
+                        <select id="product-category" required>
+                            <option value="">Seleccione una categoría</option>
+                            <option value="Helado">Base de Helado</option>
+                            <option value="Topping">Topping</option>
+                            <option value="Fruta">Fruta</option>
+                            <option value="Adicional">Adicional</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-stock">Stock Inicial:</label>
+                        <input type="number" id="product-stock" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-min">Stock Mínimo:</label>
+                        <input type="number" id="product-min" min="0" required>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-save me-2"></i>Guardar Producto
+                    </button>
+                </form>
             </div>
         </div>
     </main>
 
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container text-center">
+            <p class="mb-2">© 2023 Fruletto. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Funcionalidad básica del modal
+        // Funcionalidad del modal
         document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById('product-modal');
             const btnAdd = document.getElementById('add-product');
@@ -173,6 +580,7 @@
             btnAdd.onclick = function() {
                 modal.style.display = 'block';
                 document.getElementById('modal-title').textContent = 'Agregar Nuevo Producto';
+                document.getElementById('product-form').reset();
             }
             
             spanClose.onclick = function() {
@@ -185,17 +593,69 @@
                 }
             }
             
-            // Simulación de búsqueda
-            document.querySelector('.btn-search').addEventListener('click', function() {
-                const searchTerm = document.getElementById('search-product').value.toLowerCase();
+            // Funcionalidad de búsqueda mejorada
+            const searchInput = document.getElementById('search-product');
+            const searchBtn = document.querySelector('.btn-search');
+            
+            function performSearch() {
+                const searchTerm = searchInput.value.toLowerCase();
                 const rows = document.querySelectorAll('.inventory-table tbody tr');
                 
                 rows.forEach(row => {
                     const productName = row.cells[1].textContent.toLowerCase();
-                    if (productName.includes(searchTerm)) {
+                    const category = row.cells[2].textContent.toLowerCase();
+                    
+                    if (productName.includes(searchTerm) || category.includes(searchTerm)) {
                         row.style.display = '';
                     } else {
                         row.style.display = 'none';
+                    }
+                });
+            }
+            
+            searchBtn.addEventListener('click', performSearch);
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            // Búsqueda en tiempo real
+            searchInput.addEventListener('input', performSearch);
+            
+            // Funcionalidad de formulario
+            document.getElementById('product-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Aquí iría la lógica para agregar el producto
+                alert('Producto guardado exitosamente');
+                modal.style.display = 'none';
+                this.reset();
+            });
+            
+            // Funcionalidad de botones de editar
+            document.querySelectorAll('.btn-edit').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    modal.style.display = 'block';
+                    document.getElementById('modal-title').textContent = 'Editar Producto';
+                    
+                    // Aquí se cargarían los datos del producto seleccionado
+                    const row = this.closest('tr');
+                    const productName = row.cells[1].textContent;
+                    const category = row.cells[2].textContent.replace(/\s/g, '');
+                    
+                    document.getElementById('product-name').value = productName;
+                    // Lógica adicional para cargar datos del producto
+                });
+            });
+            
+            // Funcionalidad de botones de eliminar
+            document.querySelectorAll('.btn-delete').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
+                        // Aquí iría la lógica para eliminar el producto
+                        this.closest('tr').remove();
+                        alert('Producto eliminado exitosamente');
                     }
                 });
             });
